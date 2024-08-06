@@ -13,4 +13,3 @@ By selecting steel grade and thickness of materials, and enter the effective len
 - This is just a tool for calculate the pb & pc only.
 - There is no guarantee on the accuracy of the output.
 - Using this app is means that you will take all your own risks on using this app.
-- 
