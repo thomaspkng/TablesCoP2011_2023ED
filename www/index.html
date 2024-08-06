@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+    body {
+      background-image: linear-gradient(to bottom, #D8E8F8, #C8B8D8);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      height: 100%;
+      font-size: 14px;
+    }
+    html {
+      width: 100%;
+    }
+    span {
+      font-size: 14px;
+    }
+    .entryTitle1 {
+      display: inline-block;
+      width: 120px;
+    }
+    .entryTitle2 {
+      display: inline-block;
+      width: 180px;
+    }
+    .entryInputText {
+      width: 80px;
+      text-align: right;
+    }
+    div.bendCap {
+      width: 550px;
+      height: 30px;
+      padding: 10px;
+      padding-top: 15px;
+      margin: auto;
+      background-image: linear-gradient(to bottom, #E8D8F8, #B8A8C8);
+      background-repeat: no-repeat;
+      background-attachment: local;
+      color: #33F;
+    }
+    div.compCap {
+      width: 550px;
+      height: 30px;
+      padding: 10px;
+      padding-top: 15px;
+      margin: auto;
+      background-image: linear-gradient(to bottom, #E8D8F8, #B8A8C8);
+      background-repeat: no-repeat;
+      background-attachment: local;
+      color: #33F;
+    }
+  </style>
+  <script type="text/javascript" src="./js/bendcompCap.js"></script>
+</head>
+<body onload="init()">
+  <h4>Bending, Shear & Compressive Strength<br />Table 8.3 & Table8.8, CoP-S.U.O.S. 2011 (2023 Edition)</h4>
+  <hr />
+  <span><b><u>Material Strength (Table 3.x):</u></b></span><br />
+  <span>Steel Grade:</span><br />
+  <!--<span><input class="entryF" type="radio" name="stgrade" value="S235" />S235</span><span>&nbsp;&nbsp;|</span>-->
+  <span><input class="entryF" type="radio" name="stgrade" value="S275" checked />S275</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="stgrade" value="S355" />S355</span><span>&nbsp;&nbsp;|</span>
+  <!--<span><input class="entryF" type="radio" name="stgrade" value="S450" />S450</span><span>&nbsp;&nbsp;|</span>-->
+  <span><input class="entryF" type="radio" name="stgrade" value="S460" />S460</span>
+  <br />
+  <span><input class="entryF" type="radio" name="stgrade" value="Q235" />Q235</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="stgrade" value="Q345/Q355" />Q345/Q355</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="stgrade" value="Q390" />Q390</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="stgrade" value="Q420" />Q420</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="stgrade" value="Q460" />Q460</span><span>&nbsp;&nbsp;|</span>
+  <!--<span><input class="entryF" type="radio" name="stgrade" value="Q550" />Q550</span><span>&nbsp;&nbsp;|</span>-->
+  <!--<span><input class="entryF" type="radio" name="stgrade" value="Q690" />Q690</span>-->
+  <br />
+  <span>Thickness, t (mm):</span><br />
+  <span><input class="entryF" type="radio" name="thkness" value="0" checked />t &le;16</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="thkness" value="1" />16 &lt; t &le; 40</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="thkness" value="2" />40 &lt; t &le; 63</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="thkness" value="3" />63 &lt; t &le; 80</span><span>&nbsp;&nbsp;|</span>
+  <span><input class="entryF" type="radio" name="thkness" value="4" />80 &lt; t &le; 100</span>
+  <br /><br />
+  <span>Design Stregth of materal, p<sub>y</sub>= <input id="py" class="entryInputText" type="text" value="(n.a.)" disabled /> N/mm<sup>2</sup></span>
+  <br />
+  <hr />
+  <span><b><u>Members:</u></b></span><br />
+  <span class="entryTitle1">Effective Length: </span><input id="Le" class="entryF entryInputText" type="number" min="0" onchange="nonegative(this.id)" value="0" /> mm&nbsp;&nbsp;&nbsp;
+  <span class="entryTitle2"> Relative Slenderness, &lambda; = </span><input id="lr_disp" class="entryInputText" type="text" value="(n.a.)" disabled/><br />
+  <span class="entryTitle1">Radius of Gyration: </span><input id="ry" class="entryF entryInputText" type="number" min="0" onchange="nonegative(this.id)" value="0" /> mm&nbsp;&nbsp;&nbsp;
+  <span class="entryTitle2"> Equivalent Slenderness, &lambda;<sub>LT</sub> = </span><input id="lrLT_disp" class="entryInputText" type="text" value="(n.a.)" disabled/><br />
+  <hr />
+  <span><b><u>Bending Capacity, p<sub>b</sub>:</u></b></span><br />
+  <span>Section Formation Type: </span>
+  <span><input class="entryF" type="radio" name="formtype" value="hf" checked />Hot Roll</span>
+  <span><input class="entryF" type="radio" name="formtype" value="cf" />Cold Form / Welded Section</span>
+  <br />
+  <div id="bendCap" class="bendCap">
+    Allowable Bending Strength
+  </div>
+  <br />
+  <hr />
+  <span><b><u>Compressive Capacity, p<sub>c</sub>:</u></b></span><br />
+  <span>Strut cuevw:&nbsp;
+    <input class="entryF" type="radio" name="strutcurve" value="a" />a&nbsp;|&nbsp;
+    <input class="entryF" type="radio" name="strutcurve" value="b" />b&nbsp;|&nbsp;
+    <input class="entryF" type="radio" name="strutcurve" value="c" checked />c&nbsp;|&nbsp;
+    <input class="entryF" type="radio" name="strutcurve" value="d" />d
+    <br />
+  </span>
+  <div id="compCap" class="compCap">
+    Allowable Compressive Strength
+  </div>
+  <br />
+  <hr />
+</body>
+</html>
