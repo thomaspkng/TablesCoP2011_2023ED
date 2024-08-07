@@ -129,6 +129,8 @@ function designStrength() {
     thknList = thkn[i].value;
   }
   py4chk = table3_JSON[pyd][thknList];
+  var pv_py4chk = (Math.round(py4chk/Math.sqrt(3)*1000))/1000;
+  document.getElementById('pv').value = pv_py4chk;
   }
   document.getElementById('py').value = py4chk;
   if (!(effLen>0 && rGy>0)) {
